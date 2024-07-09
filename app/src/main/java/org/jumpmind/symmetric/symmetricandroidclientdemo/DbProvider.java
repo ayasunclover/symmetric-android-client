@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.jumpmind.symmetric.android.SQLiteOpenHelperRegistry;
 import org.jumpmind.symmetric.android.SymmetricService;
@@ -23,7 +23,7 @@ import java.util.Properties;
 public class DbProvider extends ContentProvider {
 
     //TODO: Update REGISTRATION_URL with Sync URL of corp-000
-    private final String REGISTRATION_URL = "http://YOUR_CORP_IP_ADDRESS:31415/sync/corp-000";
+    private final String REGISTRATION_URL = "http://192.168.178.98:31415/sync/corp-000";
     private final String NODE_ID = "android-003";
     private final String NODE_GROUP = "store";
 

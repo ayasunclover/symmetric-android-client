@@ -1,17 +1,17 @@
 package org.jumpmind.symmetric.symmetricandroidclientdemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        final EditText sqlTextField = (EditText)findViewById(R.id.sqlTextField);
-        final TextView outputTextView = (TextView)findViewById(R.id.outputTextView);
+        final EditText sqlTextField = findViewById(R.id.sqlTextField);
+        final TextView outputTextView = findViewById(R.id.outputTextView);
         outputTextView.setMovementMethod(new ScrollingMovementMethod());
 
-        Button runButton = (Button)findViewById(R.id.runButton);
+        Button runButton = findViewById(R.id.runButton);
         runButton.setOnClickListener(v -> {
             String sql = sqlTextField.getText().toString();
 
@@ -78,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
                         columnNames[j] = StringUtils.abbreviate(columnNames[j], COLUMN_WIDTH);
                     }
 
-                    buff.append(String.format(tableFormat, columnNames)).append("\n");
+                    buff.append(String.format(tableFormat, (Object[]) columnNames)).append("\n");
                 }
 
                 for (int i = 0; i < cursor.getColumnCount(); i++) {
                     values.add(StringUtils.abbreviate(cursor.getString(i), COLUMN_WIDTH));
                 }
-                buff.append(String.format(tableFormat, values.toArray(new String[0]))).append("\n");
+                buff.append(String.format(tableFormat, (Object[]) values.toArray(new String[0]))).append("\n");
             }
 
             outputTextView.setText(buff.toString());
@@ -97,19 +97,19 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
         });
 
-        Button clearButton = (Button)findViewById(R.id.clearButton);
+        Button clearButton = findViewById(R.id.clearButton);
         clearButton.setOnClickListener(v -> {
             sqlTextField.setText("");
             outputTextView.setText("");
         });
 
-        Button selectButton = (Button)findViewById(R.id.selectButton);
+        Button selectButton = findViewById(R.id.selectButton);
         selectButton.setOnClickListener(v -> sqlTextField.setText(SELECT_SQL));
 
-        Button insertButton = (Button)findViewById(R.id.insertButton);
+        Button insertButton = findViewById(R.id.insertButton);
         insertButton.setOnClickListener(v -> sqlTextField.setText(INSERT_SQL));
 
-        Button newFileButton = (Button)findViewById(R.id.newFileButton);
+        Button newFileButton = findViewById(R.id.newFileButton);
         newFileButton.setOnClickListener(v -> {
             String fileName = sqlTextField.getText().toString();
             File newFile = new File(getStorageDir(v.getContext(), "SymDS").getAbsoluteFile() + "/" + fileName);

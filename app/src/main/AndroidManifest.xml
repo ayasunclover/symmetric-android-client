@@ -22,7 +22,8 @@
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name="org.jumpmind.symmetric.android.SymmetricService" android:enabled="true" >
+        <service android:name="org.jumpmind.symmetric.android.SymmetricService" android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="org.jumpmind.symmetric.android.SymmetricService" />
             </intent-filter>
