@@ -1,27 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude("META-INF/*.kotlin_module")
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdk 30
+    compileSdk 35
     defaultConfig {
-        multiDexEnabled=true
+        multiDexEnabled = true
         applicationId "org.jumpmind.symmetric.symmetricandroidclientdemo"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -32,19 +21,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '30.0.2'
+    namespace 'org.jumpmind.symmetric.symmetricandroidclientdemo'
 }
 
 dependencies {
     // Include the entire app/libs/ directory as compile dependencies
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    // Workaround for SymmetricDS 3.9 versions with missing commons-lang dependencies
-    // compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    // Ensure consistent Kotlin version across the project
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22"
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // Other dependencies
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
