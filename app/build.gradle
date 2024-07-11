@@ -1,6 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/*.kotlin_module'
+        exclude 'kotlin/reflect/reflect.kotlin_builtins'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -28,14 +40,19 @@ dependencies {
     // Include the entire app/libs/ directory as compile dependencies
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    // Ensure consistent Kotlin version across the project
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22"
-
     // Other dependencies
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}
+
+// Sicherstellen, dass alle Kotlin-Abhängigkeiten dieselbe Version verwenden
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == "org.jetbrains.kotlin") {
+            details.useVersion "1.6.20"
+        }
+    }
 }
