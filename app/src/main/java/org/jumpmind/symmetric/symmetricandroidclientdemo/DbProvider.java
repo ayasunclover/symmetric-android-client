@@ -1,5 +1,6 @@
 package org.jumpmind.symmetric.symmetricandroidclientdemo;
 
+import android.annotation.SuppressLint;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,11 +10,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import androidx.annotation.Nullable;
+import android.provider.Settings;
 
 import org.jumpmind.symmetric.android.SQLiteOpenHelperRegistry;
 import org.jumpmind.symmetric.android.SymmetricService;
 import org.jumpmind.symmetric.common.ParameterConstants;
 
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -24,7 +27,8 @@ public class DbProvider extends ContentProvider {
 
     //TODO: Update REGISTRATION_URL with Sync URL of corp-000
     private final String REGISTRATION_URL = "http://YOUR_CORP_IP_ADDRESS:31415/sync/corp-000";
-    private final String NODE_ID = "android-003";
+    //private final String NODE_ID = "android-client-001";
+    private String NODE_ID = "android-client";
     private final String NODE_GROUP = "store";
 
     final String SQL_CREATE_TABLE_ITEM = "CREATE TABLE IF NOT EXISTS ITEM(\n" +
@@ -87,6 +91,7 @@ public class DbProvider extends ContentProvider {
      * automatically when Android creates the provider in response to a resolver request from a
      * client.
      */
+    @SuppressLint("HardwareIds")
     @Override
     public boolean onCreate() {
 
@@ -107,6 +112,7 @@ public class DbProvider extends ContentProvider {
 
         intent.putExtra(SymmetricService.INTENTKEY_SQLITEOPENHELPER_REGISTRY_KEY, DATABASE_NAME);
         intent.putExtra(SymmetricService.INTENTKEY_REGISTRATION_URL, REGISTRATION_URL);
+        NODE_ID = NODE_ID + "-" + Settings.Secure.getString(Objects.requireNonNull(getContext()).getContentResolver(), Settings.Secure.ANDROID_ID);
         intent.putExtra(SymmetricService.INTENTKEY_EXTERNAL_ID, NODE_ID);
         intent.putExtra(SymmetricService.INTENTKEY_NODE_GROUP_ID, NODE_GROUP);
         intent.putExtra(SymmetricService.INTENTKEY_START_IN_BACKGROUND, true);
@@ -118,6 +124,9 @@ public class DbProvider extends ContentProvider {
         // Workaround for SymmetricDS 3.9 versions with incompatible parameter defaults
         properties.put(ParameterConstants.STREAM_TO_FILE_ENABLED, "false");
         properties.put(ParameterConstants.INITIAL_LOAD_USE_EXTRACT_JOB, "false");
+
+        properties.put(ParameterConstants.AUTO_REGISTER_ENABLED, "true");
+
 
         //properties.put(ParameterConstants.FILE_SYNC_ENABLE, "true");
         //properties.put("start.file.sync.tracker.job", "true");
